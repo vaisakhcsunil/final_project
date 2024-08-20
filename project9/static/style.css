@@ -2356,7 +2356,7 @@ textarea.form-control {
   opacity: 0.65;
 }
 .btn:not(:disabled):not(.disabled) {
-  cursor: pointer;
+  cursor:auto;
   padding: 10px 20px; /* Adjust padding to control the button's internal space */
   font-size: 16px; /* Adjust font size */
   width: 50px; /* Optional: set a fixed width */

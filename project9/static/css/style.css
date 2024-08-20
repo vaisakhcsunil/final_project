@@ -2323,7 +2323,7 @@ textarea.form-control {
 .btn {
   display: inline-block;
   font-weight: 400;
-  color: #6F6F6F;
+  color: #49de5b;
   text-align: center;
   vertical-align: middle;
   user-select: none;
@@ -2343,7 +2343,7 @@ textarea.form-control {
 }
 
 .btn:hover {
-  color: #6F6F6F;
+  color: #e2b7b7;
   text-decoration: none;
 }
 
@@ -9802,22 +9802,21 @@ input::placeholder{
 }
 
 button[type="submit"] {
-  background-color: #1b94f7;
+  background-color: blue;
   color: white;
-  padding: 3px 15px;
-  margin: 15px;
+  padding: 0px;
+  margin: 1px;
   border: none;
   /* border-radius: 50px; */
-  cursor: pointer;
+  cursor:auto;
   font-size: 18px;
   font-weight: 400;
-  align-content: center;
-  width: 100%;
+  align-content:flex-end;
+  width: 34px;
 }
 
 button[type="submit"]:hover {
   background-color: #ffffff;
   color: #1b94f7;
  
-  
 }
