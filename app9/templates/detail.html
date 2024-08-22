@@ -193,12 +193,17 @@
                         <h3>Price: Rs.{{ product.price }}</h3>
                         <div class="action_buttons">
                             {% if user.is_authenticated %}
+                            
+                          
                         </div>
-                    
+                        <a href="{% url 'add_to_cart' product.id %}" style="text-decoration: none;">
+                            <button style="width: 150px; height: 40px; color: white; background-color: blue; border: none;">
+                                Add To Cart
+                            </button>
+                        </a>
                         <button class="me-2 mt-2" style="width: 150px;height: 40px;color: white;background-color: rgb(218, 10, 55);">Buy Now</button>
                   
            
-                        <button style="width: 150px;height: 40px;color:  white;background-color: blue;">Add To Cart</button>
                     </div>
       
                             {% else %}
