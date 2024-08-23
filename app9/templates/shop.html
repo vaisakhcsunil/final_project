@@ -53,11 +53,13 @@
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
-                    <i class="fas fa-heart text-primary"></i>
-                    <span class="badge">0</span>
+                
+                                      
+                <a href="{% url 'profile' %}" class="btn border">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="badge"></span>
                 </a>
-                <a href="" class="btn border">
+                <a href="{% url 'cart' %}" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
                     <span class="badge">0</span>
                 </a>
@@ -76,14 +78,14 @@
                     <i class="fa fa-angle-down text-dark"></i>
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
-                    <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
+                    <!-- <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
                        
                         <a href="" class="nav-item nav-link">Mens</a>
                         <a href="" class="nav-item nav-link">Womens</a>
                         <a href="" class="nav-item nav-link">Unisex</a>
                         <a href="" class="nav-item nav-link">Babies</a>
                         <a href="" class="nav-item nav-link">Smart Watch</a>
-                        <a href="" class="nav-item nav-link">DigitalWatch</a>
+                        <a href="" class="nav-item nav-link">DigitalWatch</a> -->
                     </div>
                 </nav>
             </div>
@@ -110,8 +112,12 @@
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="" class="nav-item nav-link"  data-bs-toggle="modal" data-bs-target="#exampleModal">Login</a>
-                            <a href=""  class="nav-item nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal1" >Register</a>
+                            <a href="{% url 'profile' %}" class="nav-link">
+                                <i class="fas fa-user-circle"></i> <!-- Font Awesome profile icon -->
+                            </a>  
+                            <a href="{% url 'cart' %}"  class="nav-link">
+                                <i class="fas fa-shopping-cart"></i> <!-- Font Awesome cart icon -->
+                            </a>                          
                         </div>
                     </div>
                 </nav>
@@ -309,9 +315,10 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-between bg-light border">
-                                
+                               
                                 <!-- <a href="" class="btn btn-sm text-dark p-0"> <a href="{% url 'product_detail' pk=1 %}"> <i class="fas fa-eye text-primary mr-1"></i>View Detail</a> -->
-                                <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                <a href="{% url 'add_to_cart' product_id=1  %}" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
+                                </a>
                             </div>
                             </div>
                         </div>
@@ -332,7 +339,7 @@
                             <div class="card-footer d-flex justify-content-between bg-light border">
     
                                 <!-- <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a> -->
-                                <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                <a href="{% url 'add_to_cart' product_id=2  %}" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                             </div>
                         </div>
                     </div>

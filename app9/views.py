@@ -31,11 +31,16 @@ def index(request):
     else:
         form=SignupForm()
     return render(request,'index.html',{'form':form})
-def shop(request):
-    return render(request,'shop.html')
-# def detail(request):
+# def shop(request):
+#     return render(request,'shop.html')
+# # def detail(request):
 #     return render(request,'detail.html')
-
+def shop(request):
+    """
+    View to display all products in the shop.
+    """
+    products = Product.objects.all()
+    return render(request, 'shop.html', {'products': products})
 
 
 def upload_product(request):
@@ -112,3 +117,38 @@ def update_cart(request, cart_item_id):
             cart_item.quantity = int(quantity)
             cart_item.save()
     return redirect('cart')
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
+
+@login_required
+def profile(request):
+    user = request.user
+    form = PasswordChangeForm(user)
+
+    if request.method == 'POST':
+        if 'update_email' in request.POST:
+            new_email = request.POST.get('email')
+            if User.objects.filter(email=new_email).exclude(username=user.username).exists():
+                messages.error(request, 'Email address is already in use.')
+            else:
+                user.email = new_email
+                user.save()
+                messages.success(request, 'Email updated successfully!')
+        elif 'update_password' in request.POST:
+            form = PasswordChangeForm(user, request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)  # Keeps the user logged in after password change
+                messages.success(request, 'Password updated successfully!')
+            else:
+                messages.error(request, 'Please correct the error below.')
+
+    context = {
+        'user': user,
+        'password_form': form,
+    }
+    return render(request, 'profile.html', context)
