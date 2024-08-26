@@ -23,3 +23,37 @@ class CartItem(models.Model):
 
     def total(self):
         return self.product.price * self.quantity
+    
+
+class BillingDetails(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField()
+    address = models.TextField()
+    postal_code = models.CharField(max_length=10)
+   
+
+    def __str__(self):
+        return f"{self.user.username}'s Billing Details"
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField('CartItem', through='OrderItem')
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Order #{self.id} by {self.user.username}"
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    cart_item = models.ForeignKey('CartItem', on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def total_price(self):
+        return self.cart_item.product.price * self.quantity
+
+    def __str__(self):
+        return f"OrderItem #{self.id} in Order #{self.order_id}"

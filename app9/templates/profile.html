@@ -1,132 +1,206 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
             margin: 0;
-            padding: 20px;
+            padding: 40px;
+            color: #333;
         }
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
         }
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
         .header h1 {
             margin: 0;
+            font-size: 2.8rem;
+            color: #4a4a4a;
         }
         .profile-info {
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
         .profile-info img {
             border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            margin-right: 20px;
-        }
-        .profile-info .details {
-            flex-grow: 1;
+            width: 130px;
+            height: 130px;
+            margin-right: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         .profile-info .details h2 {
             margin: 0;
+            font-size: 2rem;
+            color: #333;
+            font-weight: 600;
         }
         .profile-info .details p {
-            margin: 5px 0;
+            margin: 10px 0;
             color: #555;
+            font-size: 1.1rem;
         }
         .orders {
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
         .orders h3 {
-            margin-bottom: 10px;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #4a4a4a;
+            border-bottom: 3px solid #ddd;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .orders table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
         .orders table th, .orders table td {
             text-align: left;
-            padding: 10px;
+            padding: 15px;
             border-bottom: 1px solid #ddd;
+            font-size: 1rem;
         }
         .orders table th {
-            background-color: #f4f4f4;
+            background-color: #f7f7f7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .login-details h3 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #4a4a4a;
+            border-bottom: 3px solid #ddd;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .login-details form {
+            margin-bottom: 30px;
+            background-color: #fafafa;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+        .login-details label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        .login-details input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .login-details input:focus {
+            border-color: #6e8efb;
+            box-shadow: 0 0 8px rgba(110, 142, 251, 0.2);
+        }
+        .login-details button {
+            padding: 12px 20px;
+            background-color: #6e8efb;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .login-details button:hover {
+            background-color: #5a79e0;
         }
         .settings {
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
         .settings h3 {
-            margin-bottom: 10px;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #4a4a4a;
+            border-bottom: 3px solid #ddd;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .settings ul {
             list-style-type: none;
             padding: 0;
         }
         .settings ul li {
-            margin: 10px 0;
+            margin: 15px 0;
         }
         .settings ul li a {
             text-decoration: none;
-            color: #007BFF;
-            font-weight: bold;
+            color: #6e8efb;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
         }
         .settings ul li a:hover {
-            text-decoration: underline;
+            color: #4a4a4a;
         }
-        .login-details form {
-            margin-bottom: 20px;
+        .settings ul li a::before {
+            content: '→';
+            margin-right: 8px;
+            font-size: 1.2rem;
+            color: #6e8efb;
+            transition: color 0.3s ease;
         }
-        .login-details label {
-            display: block;
-            margin-bottom: 5px;
+        .settings ul li a:hover::before {
+            color: #4a4a4a;
         }
-        .login-details input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
+        /* Adding animations */
+        .container, .header h1, .profile-info img, .orders h3, .login-details h3, .settings h3 {
+            animation: fadeInUp 0.8s ease-in-out;
         }
-        .login-details button {
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        .login-details button:hover {
-            background-color: #0056b3;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>{{ user.first_name }} {{ user.last_name }} Profile</h1>
+            <h1>{{ user.username }}'s Profile</h1>
         </div>
 
         <div class="profile-info">
-            <img src="https://via.placeholder.com/100" alt="User Profile Picture">
+            <img src="{% static 'img/profile.jpg' %}" alt="User Profile Picture">
             <div class="details">
-                <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                <h2>{{ user.username }} {{ user.last_name }}</h2>
                 <p>Email: {{ user.email }}</p>
-                <p>Phone: {{ user.userprofile.phone_number }}</p>
+                <p>Username: {{ user.username }}</p>
                 <p>Address: {{ user.userprofile.address }}</p>
             </div>
         </div>
@@ -134,6 +208,23 @@
         <div class="orders">
             <h3>Recent Orders</h3>
             <!-- Orders logic can be added here -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example row -->
+                    <tr>
+                        <td>#12345</td>
+                        <td>2024-08-26</td>
+                        <td>Delivered</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="login-details">
@@ -159,7 +250,7 @@
                 <li><a href="#">Edit Profile</a></li>
                 <li><a href="#">Manage Addresses</a></li>
                 <li><a href="#">Payment Methods</a></li>
-             
+                <li><a href="{% url 'logout' %}">Logout</a></li>
             </ul>
         </div>
     </div>

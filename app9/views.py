@@ -11,10 +11,10 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from.forms import SignupForm
 from django.contrib.auth.hashers import make_password
-from . forms import SignupForm,LoginForm,ProductForm
+from . forms import SignupForm,LoginForm,ProductForm,BillingDetails
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from .models import Product,CartItem
+from .models import Product,CartItem,Order,OrderItem
 from django.contrib.auth.decorators import login_required
 
 def index(request):
@@ -152,3 +152,53 @@ def profile(request):
         'password_form': form,
     }
     return render(request, 'profile.html', context)
+
+from django.contrib.auth import logout
+
+def user_logout(request):
+    logout(request)
+    return redirect('index') 
+
+from .forms import BillingDetailsForm
+
+
+
+def checkout(request):
+    if request.method == 'POST':
+        form = BillingDetailsForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            billing_details, created = BillingDetails.objects.get_or_create(user=user)
+            if not created:
+                # If billing details already exist, update them with the form data
+                billing_details.name = form.cleaned_data['name']
+                billing_details.phone_number = form.cleaned_data['phone_number']
+                billing_details.email = form.cleaned_data['email']
+                billing_details.address = form.cleaned_data['address']
+                billing_details.postal_code = form.cleaned_data['postal_code']
+                
+                billing_details.save()
+
+            # Process the order
+            cart_items = CartItem.objects.filter(user=user)
+            total_price = sum(item.total() for item in cart_items)
+            order = Order.objects.create(user=user, total_price=total_price)
+            for cart_item in cart_items:
+                OrderItem.objects.create(order=order, cart_item=cart_item, quantity=cart_item.quantity)
+            cart_items.delete()  # Clear the cart after placing the order
+
+            return redirect('order_confirmation', order_id=order.id)
+    else:
+        form = BillingDetailsForm()
+    
+    cart_items = CartItem.objects.filter(user=request.user)
+    total_price = sum(item.total() for item in cart_items)
+    return render(request, 'checkout.html', {'form': form, 'cart_items': cart_items, 'total_price': total_price})
+def order_confirmation(request, order_id):
+    order = Order.objects.get(id=order_id)
+    return render(request, 'order_confirmation.html', {'order': order})
+
+from django.conf import settings
+
+from django.http import JsonResponse
+from .models import Order

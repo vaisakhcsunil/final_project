@@ -1,0 +1,50 @@
+{% load static %}
+<!-- order_confirmation.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h1>Order Confirmation</h1>
+    <p>Thank you for your order!</p>
+    <h2>Order Details</h2>
+    <p>Order ID: {{ order.id }}</p>
+    <p>Total Amount: ₹{{ order.total_price }}</p>
+
+    <!-- Razorpay Payment Button -->
+    <button id="rzp-button1">Pay with Razorpay</button>
+
+    <script>
+        var options = {
+            "key": "YOUR_RAZORPAY_KEY_ID", // Enter the Key ID generated from the Dashboard
+            "amount": "{{ order.total_price|floatformat:2|floatformat:0 }}00", // Amount in paise
+            "currency": "INR",
+            "name": "Your Company Name",
+            "description": "Order Payment",
+            "image": "https://your-logo-url.com",
+            "order_id": "{{ order.razorpay_order_id }}", // Generate this order ID from Razorpay
+            "handler": function (response){
+                alert('Payment Successful');
+                // You can send the payment details to your server for verification
+            },
+            "prefill": {
+                "name": "{{ order.customer_name }}",
+                "email": "{{ order.customer_email }}",
+                "contact": "{{ order.customer_contact }}"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        document.getElementById('rzp-button1').onclick = function(e){
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+</body>
+</html>
