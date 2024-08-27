@@ -168,134 +168,100 @@
       </div>
       <!-- modal end -->
 
-    <!-- Page Header Start -->
-    <div class="container-fluid bg-secondary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Checkout</h1>
-            <div class="d-inline-flex">
-                <p class="m-0"><a href="">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">Checkout</p>
-            </div>
-        </div>
-    </div>
-    <!-- Page Header End -->
+   
 
 
- 
 <!-- Checkout Start -->
 <div class="container-fluid pt-5">
     <div class="row px-xl-5">
-        <div class="col-lg-8">
-            <div class="mb-4">
-               
-                </div>
-            </div>
-            
-            <div class="card border-secondary mb-5">
-                <div class="card-header bg-secondary border-0">
-                    <h4 class="font-weight-semi-bold m-0">Payment</h4>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" name="payment" id="paypal">
-                            <label class="custom-control-label" for="paypal">Razorpay</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" name="payment" id="directcheck">
-                            <label class="custom-control-label" for="directcheck">Direct Check</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
-                            <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 form-group">
-                    <form method="post"> 
-                        {% csrf_token %}
-                       
-                        {{ form.as_p }}
-                          
-                        
-                            <button style="width: 150px; height: 50px; color: white; background-color: rgb(64, 160, 224); border: none;">
-                                Proceed To Checkout
-                            </button>
-                        </a>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-            <!-- Combined Checkout and Cart Display -->
-            <h2>Checkout</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Loop through cart items and display them -->
-                    {% for item in cart_items %}
-                    <tr>
-                        <td>{{ item.product.name }}</td>
-                        <td>${{ item.product.price }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>${{ item.total }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        <!-- Order Summary -->
         <div class="col-lg-4">
-            <!-- Order Total and Payment -->
             <div class="card border-secondary mb-5">
                 <div class="card-header bg-secondary border-0">
-                    <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                    <h4 class="font-weight-semi-bold m-0">Order Summary</h4>
                 </div>
                 <div class="card-body">
-                    <h5 class="font-weight-medium mb-3">Products</h5>
-                    <!-- Loop through cart items and display them in order summary -->
-                    {% for item in cart_items %}
-                    <div class="d-flex justify-content-between">
-                        <p>{{ item.product.name }}</p>
-                        <p>${{ item.product.price }}</p>
-                    </div>
-                    {% endfor %}
-                    <hr class="mt-0">
-                    <div class="d-flex justify-content-between mb-3 pt-1">
+                    <div class="d-flex justify-content-between mb-3">
                         <h6 class="font-weight-medium">Subtotal</h6>
-                        <h6 class="font-weight-medium">${{ subtotal_price }}</h6>
+                        <h6 class="font-weight-medium">Rs.{{ subtotal_price }}</h6>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <h6 class="font-weight-medium">Shipping</h6>
+                        <h6 class="font-weight-medium">Free delivery</h6>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <h6 class="font-weight-medium">Shipping</h6>
-                        <h6 class="font-weight-medium">$10</h6>
+                        <h6 class="font-weight-medium">Total</h6>
+                        <h6 class="font-weight-medium">Rs.{{ total_price }}</h6>
                     </div>
-                </div>
-                <div class="card-footer border-secondary bg-transparent">
-                    <div class="d-flex justify-content-between mt-2">
-                        <h5 class="font-weight-bold">Total</h5>
-                        <h5 class="font-weight-bold">${{ total_price }}</h5>
-                    </div>
-                </div>
-            </div>
-            
-             
                 </div>
             </div>
         </div>
+
+        <!-- Checkout Details -->
+        <div class="col-lg-8">
+            <h2 class="mb-4">Checkout</h2>
+            <div class="table-responsive mb-5">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through cart items and display them -->
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>Rs.{{ item.product.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>Rs.{{ item.total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <form method="post" action="{% url 'checkout' %}" class="mb-5">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button style="width: 190px; height: 60px; color: rgb(252, 247, 247); background-color: rgb(105, 171, 230); border: none;">
+                    Proceed To Checkout
+                </button>
+            </form>
+        </div>
     </div>
 </div>
+<!-- Checkout End -->
+
+<!-- Optional: Add custom CSS for additional styling -->
+<style>
+    .btn-block {
+        width: 100%;
+        height: 50px;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+    }
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+    .table-bordered th, .table-bordered td {
+        border: 1px solid #dee2e6;
+        padding: 1rem;
+    }
+    .font-weight-semi-bold {
+        font-weight: 600;
+    }
+    .font-weight-medium {
+        font-weight: 500;
+    }
+</style>
+
+<!-- Checkout End -->
+ 
+
 <!-- Checkout End -->
 
 
