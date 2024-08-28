@@ -202,3 +202,23 @@ from django.conf import settings
 
 from django.http import JsonResponse
 from .models import Order
+def about(request):
+    return render(request,'about.html')
+
+
+import razorpay
+from django.conf import settings
+
+client=razorpay.Client(auth=(settings.RAZORPAY_KEY_ID,settings.RAZORPAY_KEY_SECRET))
+
+from django.shortcuts import redirect
+
+def razorpay_payment(request):
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        order = Order.objects.get(id=order_id)
+        total_price = order.total_price  # Assuming you have a field 'total_price' in your Order model
+        # Create a Razorpay payment object here and return the response
+        # After successful payment, redirect to the receipt URL
+        return redirect('receipt',order_id=order_id)
+    return JsonResponse({'error': 'Invalid Request'})

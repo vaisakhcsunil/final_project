@@ -1,26 +1,102 @@
 {% load static %}
-<!-- order_confirmation.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmation</title>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- External CSS for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        .container img {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        p {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .order-details {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .order-details p {
+            margin: 5px 0;
+            font-size: 1rem;
+        }
+        #rzp-button1 {
+            background-color: #3399cc;
+            color: #fff;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            width: 100%;
+        }
+        #rzp-button1:hover {
+            background-color: #287a9b;
+        }
+        .order-icon {
+            color: #28a745;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Order Confirmation</h1>
-    <p>Thank you for your order!</p>
-    <h2>Order Details</h2>
-    <p>Order ID: {{ order.id }}</p>
-    <p>Total Amount: ₹{{ order.total_price }}</p>
+    <div class="container">
+        <img src="https://your-logo-url.com" alt="Your Company Logo">
+        <i class="fas fa-check-circle order-icon"></i>
+        <h1>Order Confirmed!</h1>
+        <p>Thank you for your order, {{ order.customer_name }}!</p>
+        <p>Your order has been successfully placed.</p>
 
-    <!-- Razorpay Payment Button -->
-    <button id="rzp-button1">Pay with Razorpay</button>
+        <div class="order-details">
+            <h2>Order Details</h2>
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
+        </div>
 
+        <!-- Razorpay Payment Button -->
+        <button id="rzp-button1">Pay with Razorpay</button>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
         var options = {
-            "key": "YOUR_RAZORPAY_KEY_ID", // Enter the Key ID generated from the Dashboard
+            "key": "rzp_test_N8OgX89d5kCevO", // Enter the Key ID generated from the Dashboard
             "amount": "{{ order.total_price|floatformat:2|floatformat:0 }}00", // Amount in paise
             "currency": "INR",
             "name": "Your Company Name",
